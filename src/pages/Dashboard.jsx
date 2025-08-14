@@ -1,82 +1,59 @@
-// src/pages/ClassroomDashboard.jsx
-import React from "react";
-import { motion } from "framer-motion";
-import { People, Event, TrendingUp, Lightbulb } from "@mui/icons-material";
+import { useState } from 'react';
+import { FiUser, FiPieChart, FiBarChart2 } from 'react-icons/fi';
+import Sidebar from '../components/Sidebar';
+import TopNav from '../components/TopNav';
+import StatsCard from '../components/StatsCard';
+import ActivityChart from '../components/ActivityChart';
+import PerformanceChart from '../components/PerformanceChart';
+import RecentActivity from '../components/RecentActivity';
+import "../Chartconfig"; // ✅ must be first before using <Line> or <Bar>
 
-export default function ClassroomDashboard() {
+const Dashboard = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const stats = [
+    { title: 'Total Users', value: '1,234', change: '+12%', icon: <FiUser size={24} className="text-primary" /> },
+    { title: 'Revenue', value: '$34,567', change: '+8%', icon: <FiPieChart size={24} className="text-primary" /> },
+    { title: 'Conversion', value: '3.2%', change: '-0.5%', icon: <FiBarChart2 size={24} className="text-primary" /> },
+  ];
+
+  const activityData = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    datasets: [
+      { label: 'Activity Trends', data: [12, 19, 3, 5, 2, 3], borderColor: '#3D566E', backgroundColor: 'rgba(61, 86, 110, 0.1)', fill: true, tension: 0.4 }
+    ]
+  };
+
+  const performanceData = {
+    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+    datasets: [
+      { label: 'Performance', data: [8, 12, 6, 14], backgroundColor: 'rgba(44, 62, 80, 0.7)' }
+    ]
+  };
+
+  const recentActivities = [
+    { id: 1, title: 'New user registered', time: '2 mins ago' },
+    { id: 2, title: 'System update completed', time: '1 hour ago' },
+    { id: 3, title: 'Database backup', time: '3 hours ago' },
+    { id: 4, title: 'New project created', time: '5 hours ago' },
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
-      <motion.h1
-        className="text-3xl font-bold text-gray-900 mb-8"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        📚 Classroom Compass
-      </motion.h1>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Sidebar Cards */}
-        {[
-          { icon: <People fontSize="large" />, label: "Total Students", value: "128" },
-          { icon: <Event fontSize="large" />, label: "Classes This Week", value: "12" },
-          { icon: <TrendingUp fontSize="large" />, label: "Avg. Engagement", value: "87%" },
-        ].map((stat, idx) => (
-          <motion.div
-            key={idx}
-            className="bg-white p-6 rounded-xl shadow-lg flex items-center space-x-4 hover:shadow-2xl transition"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.2 }}
-          >
-            <div className="text-indigo-600">{stat.icon}</div>
-            <div>
-              <p className="text-sm text-gray-500">{stat.label}</p>
-              <p className="text-xl font-semibold">{stat.value}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Charts & Tips */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-        <motion.div
-          className="bg-white p-6 rounded-xl shadow-lg"
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-lg font-bold mb-4">Attendance Trend</h2>
-          <div className="h-40 bg-gray-100 rounded-lg flex items-center justify-center">
-            📈 Chart Placeholder
+    <div className="flex h-screen bg-[url('https://i.pinimg.com/736x/89/e9/86/89e98604c5e5b241c8cd4b89b29ba218.jpg')] overflow-hidden">
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <TopNav />
+        <main className="flex-1 overflow-y-auto p-6">
+          <StatsCard stats={stats} />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <ActivityChart data={activityData} />
+            <PerformanceChart data={performanceData} />
           </div>
-        </motion.div>
-
-        <motion.div
-          className="bg-white p-6 rounded-xl shadow-lg"
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-lg font-bold mb-4">Engagement Score</h2>
-          <div className="h-40 bg-gray-100 rounded-lg flex items-center justify-center">
-            📊 Chart Placeholder
-          </div>
-        </motion.div>
+          <RecentActivity activities={recentActivities} />
+        </main>
       </div>
-
-      {/* Tip Section */}
-      <motion.div
-        className="bg-indigo-50 mt-8 p-6 rounded-xl flex items-center space-x-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        <Lightbulb className="text-yellow-500" />
-        <p className="text-gray-700">
-          <strong>Today’s Tip:</strong> Start each class with a quick ice-breaker to boost student participation.
-        </p>
-      </motion.div>
     </div>
   );
-}
+};
+
+export default Dashboard;
