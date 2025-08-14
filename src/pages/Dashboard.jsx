@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FiUser, FiPieChart, FiBarChart2 } from 'react-icons/fi';
 import Sidebar from '../components/Sidebar';
 import TopNav from '../components/TopNav';
@@ -6,10 +6,37 @@ import StatsCard from '../components/StatsCard';
 import ActivityChart from '../components/ActivityChart';
 import PerformanceChart from '../components/PerformanceChart';
 import RecentActivity from '../components/RecentActivity';
-import "../Chartconfig"; // ✅ must be first before using <Line> or <Bar>
+import "../Chartconfig";
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
+
+  // Detect screen size and orientation changes
+  useEffect(() => {
+    const checkScreen = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsLandscape(window.innerWidth > window.innerHeight);
+    };
+
+    checkScreen();
+    window.addEventListener('resize', checkScreen);
+    return () => window.removeEventListener('resize', checkScreen);
+  }, []);
+
+  // Responsive padding values
+  const getMainPadding = () => {
+    if (isMobile && isLandscape) return "p-2";
+    if (isMobile) return "p-4";
+    return "p-6";
+  };
+
+  const getChartGap = () => {
+    if (isMobile && isLandscape) return "gap-3";
+    if (isMobile) return "gap-4";
+    return "gap-6";
+  };
 
   const stats = [
     { title: 'Total Users', value: '1,234', change: '+12%', icon: <FiUser size={24} className="text-primary" /> },
@@ -40,16 +67,32 @@ const Dashboard = () => {
 
   return (
     <div className="flex h-screen bg-[url('https://i.pinimg.com/736x/89/e9/86/89e98604c5e5b241c8cd4b89b29ba218.jpg')] overflow-hidden">
-      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} isMobile={isMobile} />
+      
       <div className="flex-1 flex flex-col overflow-hidden">
-        <TopNav />
-        <main className="flex-1 overflow-y-auto p-6">
-          <StatsCard stats={stats} />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <ActivityChart data={activityData} />
-            <PerformanceChart data={performanceData} />
+        <TopNav isMobile={isMobile} isLandscape={isLandscape} />
+        
+        <main className={`flex-1 overflow-y-auto ${getMainPadding()}`}>
+          <StatsCard stats={stats} isMobile={isMobile} isLandscape={isLandscape} />
+          
+          <div className={`grid grid-cols-1 lg:grid-cols-2 ${getChartGap()} mb-6`}>
+            <ActivityChart 
+              data={activityData} 
+              isMobile={isMobile} 
+              isLandscape={isLandscape} 
+            />
+            <PerformanceChart 
+              data={performanceData} 
+              isMobile={isMobile} 
+              isLandscape={isLandscape} 
+            />
           </div>
-          <RecentActivity activities={recentActivities} />
+          
+          <RecentActivity 
+            activities={recentActivities} 
+            isMobile={isMobile} 
+            isLandscape={isLandscape} 
+          />
         </main>
       </div>
     </div>

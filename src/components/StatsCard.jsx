@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 
-const StatsCards = ({ stats }) => {
+const StatsCards = ({ stats = [] }) => { // Added a default empty array to the stats prop
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 z-1">
       {stats.map((stat, index) => (
         <motion.div
           key={index}
@@ -16,9 +16,9 @@ const StatsCards = ({ stats }) => {
             <div className="relative rounded-[26px] p-6 backdrop-blur-xs bg-white/6 ring-1 ring-white/15 text-white shadow-[0_16px_40px_rgba(0,0,0,0.6)]">
               {/* Top-left sheen */}
               <div className="pointer-events-none absolute inset-0 rounded-[26px] opacity-60
-                              before:content-[''] before:absolute before:-inset-px before:rounded-[28px]
-                              before:bg-gradient-to-br before:from-white/35 before:to-transparent
-                              [mask-image:radial-gradient(200%_140%_at_0%_0%,black,transparent)]" />
+                                   before:content-[''] before:absolute before:-inset-px before:rounded-[28px]
+                                   before:bg-gradient-to-br before:from-white/35 before:to-transparent
+                                   [mask-image:radial-gradient(200%_140%_at_0%_0%,black,transparent)]" />
 
               <div className="flex justify-between relative">
                 <div>
