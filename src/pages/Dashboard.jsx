@@ -66,7 +66,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="flex h-screen bg-[url('https://i.pinimg.com/736x/89/e9/86/89e98604c5e5b241c8cd4b89b29ba218.jpg')] overflow-hidden">
+    <div className="DashBoard flex h-screen bg-[url('https://i.pinimg.com/736x/3e/63/b0/3e63b054da44ad2e3965576d07758146.jpg')] bg-no-repeat bg-cover overflow-hidden">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} isMobile={isMobile} />
       
       <div className="flex-1 flex flex-col overflow-hidden">

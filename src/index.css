@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 body {
-  color: #9bb0c361 @apply h-screen w-screen max-w-screen overflow-x-hidden
+   @apply h-screen w-screen max-w-screen overflow-x-hidden
     bg-black;
   .screen {
     /* border: 2px solid pink; */
