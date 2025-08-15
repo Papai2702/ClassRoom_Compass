@@ -1,7 +1,30 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+/* @custom-variant dark (&:is(.dark *)); */
+
+
+#root{
+  font-family: 'Inter', sans-serif;
+}
+/* Headings */
+h1, h2, h3 {
+  font-family: 'Poppins', sans-serif;
+  /* color: #ffffff; */
+}
+
+/* Body text */
+body, p, span, label {
+  font-family: 'Inter', sans-serif;
+  /* color: #e0e0e0; */
+}
+
+/* Accent tech info */
+.code-text, .timestamp {
+  font-family: 'JetBrains Mono', monospace;
+  /* color: #00ffcc; */
+}
+
 
 body {
    @apply h-screen w-screen max-w-screen overflow-x-hidden
