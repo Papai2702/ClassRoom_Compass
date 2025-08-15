@@ -4,11 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 body {
-  color: #9bb0c361
-  @apply h-screen
-    w-screen
-    max-w-screen
-    overflow-x-hidden
+  color: #9bb0c361 @apply h-screen w-screen max-w-screen overflow-x-hidden
     bg-black;
   .screen {
     /* border: 2px solid pink; */
@@ -21,6 +17,9 @@ body {
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    @media (max-width: 768px) {
+      background-image: url("https://i.pinimg.com/1200x/a2/b6/0f/a2b60ffc0045af634b4417d9dc12e035.jpg");
+    }
     @apply h-screen
     /* w-screen */
     flex
@@ -29,15 +28,14 @@ body {
     flex-col
     overflow-hidden;
 
-    .Landing-main{
+    .Landing-main {
       backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    /* background-color: rgba(227, 237, 255, 0.324); */
-    border-radius: 12px;
-    /* border: 1px solid rgba(255, 255, 255, 0.653); */
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      /* background-color: rgba(227, 237, 255, 0.324); */
+      border-radius: 12px;
+      /* border: 1px solid rgba(255, 255, 255, 0.653); */
       @apply h-screen
-      /* w-screen */
-
+      /* w-screen */;
     }
   }
 }
@@ -46,13 +44,11 @@ body {
   position: absolute;
   top: -50%;
   left: 50%;
-  transform: translate(-50%,25%);
+  transform: translate(-50%, 25%);
 
   @apply border-2
     border-blue-500
-    rounded-full
-
-    ;
+    rounded-full;
 }
 
 @theme inline {

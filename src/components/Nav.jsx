@@ -24,14 +24,14 @@ const Nav = () => {
           className="md:hidden flex flex-col gap-1 cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <span className="w-6 h-[2px] bg-gray-800"></span>
-          <span className="w-6 h-[2px] bg-gray-800"></span>
-          <span className="w-6 h-[2px] bg-gray-800"></span>
+          <span className="w-6 h-[2px] bg-blue-100"></span>
+          <span className="w-6 h-[2px] bg-blue-100"></span>
+          <span className="w-6 h-[2px] bg-blue-100"></span>
         </div>
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="absolute top-full right-0 mt-2 bg-white/10 shadow-lg rounded-lg p-4 flex flex-col gap-4 md:hidden z-12">
+          <div className="absolute top-full right-0 mt-2 bg-blue/100 shadow-lg rounded-lg p-4 flex flex-col gap-4 md:hidden z-12">
             <Link to="/dashboard" onClick={() => setIsOpen(false)}>
               <button className="px-4 py-2 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-700 transition">
                 Enter To the ClassRoom
