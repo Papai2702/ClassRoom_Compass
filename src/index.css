@@ -44,12 +44,10 @@ body {
       background-image: url("https://i.pinimg.com/1200x/a2/b6/0f/a2b60ffc0045af634b4417d9dc12e035.jpg");
     }
     @apply h-screen
-    /* w-screen */
     flex
     gap-5
     p-12
-    flex-col
-    overflow-hidden;
+    flex-col;
 
     .Landing-main {
       backdrop-filter: blur(16px) saturate(180%);

@@ -10,14 +10,17 @@ import {
   FiX 
 } from 'react-icons/fi';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
+const MotionLink = motion(Link);
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const menuItems = [
-    { icon: <FiHome size={20} />, label: 'Home', active: true },
-    { icon: <FiBarChart2 size={20} />, label: 'Reports' },
-    { icon: <FiMail size={20} />, label: 'Messages', notification: 3 },
-    { icon: <FiCalendar size={20} />, label: 'Calendar' },
-    { icon: <FiSettings size={20} />, label: 'Settings' },
+    { icon: <FiHome size={20} />, label: 'Home', active: true, link: "/dashboard" },
+    { icon: <FiBarChart2 size={20} />, label: 'Reports', link: "/report_class" },
+    { icon: <FiMail size={20} />, label: 'Messages', notification: 3, link: "#" },
+    { icon: <FiCalendar size={20} />, label: 'Calendar', link: "#" },
+    { icon: <FiSettings size={20} />, label: 'Settings', link: "#" },
   ];
 
   // Force collapse on small devices
@@ -82,17 +85,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         <ul className="space-y-2">
           {menuItems.map((item, index) => (
             <li key={index}>
-              <motion.a
+              <MotionLink
                 whileHover={{ 
                   backgroundColor: 'rgba(255, 255, 255, 0.08)',
                   translateX: 5
                 }}
                 whileTap={{ scale: 0.97 }}
-                href="#"
+                to={item.link}
                 className={`flex items-center p-3 rounded-xl transition-colors duration-200
                   ${item.active ? 'bg-white/10' : 'hover:bg-white/10'}
                   ${sidebarOpen && window.innerWidth >= 768 ? 'justify-start' : 'justify-center'}
-                  `}
+                `}
               >
                 <div className="relative flex-shrink-0">
                   <span className={`mr-3 ${item.active ? 'text-white' : 'text-white/80'}`}>
@@ -126,7 +129,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </motion.a>
+              </MotionLink>
             </li>
           ))}
         </ul>

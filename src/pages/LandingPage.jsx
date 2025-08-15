@@ -4,7 +4,7 @@ import Nav from "../components/Nav";
 
 export default function LandingPage() {
   return (
-    <div className="Landing min-h-screen flex flex-col">
+    <div className="Landing min-h-screen flex flex-col overflow-auto">
       {/* Background images with orientation detection */}
       <div className="fixed inset-0 -z-10">
         {/* Portrait image (default) */}
@@ -34,7 +34,7 @@ export default function LandingPage() {
           Welcome
         </h1>
         <h2 className="text-lg sm:text-6xl text-blue-200 font-medium mb-6">
-          To Class-Room Compass
+          To Class-Room-Compass
         </h2>
         <p className="max-w-2xl sm:text-4xl text-gray-300 mb-8">
           Lorem ipsum is simply dummy text of the printing and typesetting

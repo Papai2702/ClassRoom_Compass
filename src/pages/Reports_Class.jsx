@@ -1,4 +1,6 @@
-import React from 'react';
+import React from "react";
+import Logo from "../assets/C-R-CLogo.jpg";
+import { Link } from "react-router-dom";
 
 // Main App component with consistent styling
 const App = () => {
@@ -7,17 +9,17 @@ const App = () => {
       <div className="flex flex-col lg:flex-row">
         {/* Sidebar Component - matching previous style */}
         <Sidebar />
-        
+
         {/* Main Content Area */}
         <div className="flex-1 p-4 lg:p-6">
           {/* Header Component */}
           <Header />
-          
+
           {/* Dashboard Content */}
           <main className="mt-6">
             {/* Main Dashboard Section */}
             <DashboardSection />
-            
+
             {/* Students Proficiency Section */}
             <StudentsProficiency />
           </main>
@@ -32,6 +34,9 @@ const Sidebar = () => (
   <aside className="w-full lg:w-64 bg-white/10 backdrop-blur-lg border-b lg:border-r border-white/10 p-4 lg:p-6 flex lg:flex-col items-center lg:items-start space-x-4 lg:space-x-0 lg:space-y-6">
     {/* Logo/Icon placeholder */}
     <div className="hidden lg:block">
+      <Link to="/dashboard">
+        <img src={Logo} alt="" className="h-12 rounded-full cursor-pointer"/>
+      </Link>
       <h1 className="text-xl font-bold">ClassRoomCompass</h1>
       <p className="text-sm text-white/70">Dashboard</p>
     </div>
@@ -46,7 +51,12 @@ const Sidebar = () => (
 );
 
 const NavItem = ({ icon, text, active = false }) => (
-  <a href="#" className={`w-full flex items-center p-3 rounded-xl transition-colors duration-200 ${active ? 'bg-white/20 text-white' : 'text-white/70 hover:bg-white/10'}`}>
+  <a
+    href="#"
+    className={`w-full flex items-center p-3 rounded-xl transition-colors duration-200 ${
+      active ? "bg-white/20 text-white" : "text-white/70 hover:bg-white/10"
+    }`}
+  >
     <span className="text-lg">{icon}</span>
     <span className="ml-4 hidden lg:inline">{text}</span>
   </a>
@@ -67,7 +77,11 @@ const Header = () => (
         <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
       </div>
       <div className="flex items-center space-x-2">
-        <img className="h-10 w-10 rounded-full" src="https://placehold.co/40x40/76d7c4/ffffff?text=U" alt="User avatar"/>
+        <img
+          className="h-10 w-10 rounded-full"
+          src="https://placehold.co/40x40/76d7c4/ffffff?text=U"
+          alt="User avatar"
+        />
       </div>
     </div>
   </header>
@@ -93,14 +107,31 @@ const DashboardSection = () => (
     </div>
 
     {/* Quick Stats Cards */}
-    <StatCard color="from-green-400 to-green-600" value="5" text="20% of class" subtext="grade avg: 33%" />
-    <StatCard color="from-yellow-400 to-yellow-600" value="10" text="40% of class" subtext="grade avg: 50%" />
-    <StatCard color="from-red-400 to-red-600" value="5" text="20% of class" subtext="grade avg: 12%" />
+    <StatCard
+      color="from-green-400 to-green-600"
+      value="5"
+      text="20% of class"
+      subtext="grade avg: 33%"
+    />
+    <StatCard
+      color="from-yellow-400 to-yellow-600"
+      value="10"
+      text="40% of class"
+      subtext="grade avg: 50%"
+    />
+    <StatCard
+      color="from-red-400 to-red-600"
+      value="5"
+      text="20% of class"
+      subtext="grade avg: 12%"
+    />
   </section>
 );
 
 const StatCard = ({ color, value, text, subtext }) => (
-  <div className={`bg-gradient-to-br ${color} rounded-2xl p-6 text-white shadow-lg flex items-center border border-white/10`}>
+  <div
+    className={`bg-gradient-to-br ${color} rounded-2xl p-6 text-white shadow-lg flex items-center border border-white/10`}
+  >
     <div className="flex-1">
       <div className="text-5xl font-bold mb-2">{value}</div>
       <p className="text-sm">{text}</p>
@@ -121,10 +152,12 @@ const StudentsProficiency = () => (
         <a href="#" className="flex items-center hover:text-white">
           <span className="hidden sm:inline">Learning Objectives</span>
         </a>
-        <a href="#" className="font-semibold text-white">All Strands</a>
+        <a href="#" className="font-semibold text-white">
+          All Strands
+        </a>
       </div>
     </div>
-    
+
     {/* Table Header - hidden on small screens */}
     <div className="hidden md:grid grid-cols-6 gap-4 font-semibold text-white/70 text-sm pb-2 border-b border-white/10">
       <div className="col-span-2">Full Name</div>
@@ -133,44 +166,90 @@ const StudentsProficiency = () => (
       <div className="col-span-1">Needing Attention</div>
       <div className="col-span-1">Working Towards</div>
     </div>
-    
+
     {/* Student Rows */}
-    <StudentRow name="Sabine Klein" work="33 / 36" score="23%" scoreColor="bg-yellow-400" attention="45" working="8" mastered="7" />
-    <StudentRow name="Dante Podenzana" work="31 / 36" score="53%" scoreColor="bg-yellow-500" attention="6" working="35" mastered="19" />
-    <StudentRow name="Susan Chan" work="27 / 36" score="82%" scoreColor="bg-green-500" attention="1" working="14" mastered="45" />
+    <StudentRow
+      name="Sabine Klein"
+      work="33 / 36"
+      score="23%"
+      scoreColor="bg-yellow-400"
+      attention="45"
+      working="8"
+      mastered="7"
+    />
+    <StudentRow
+      name="Dante Podenzana"
+      work="31 / 36"
+      score="53%"
+      scoreColor="bg-yellow-500"
+      attention="6"
+      working="35"
+      mastered="19"
+    />
+    <StudentRow
+      name="Susan Chan"
+      work="27 / 36"
+      score="82%"
+      scoreColor="bg-green-500"
+      attention="1"
+      working="14"
+      mastered="45"
+    />
   </section>
 );
 
-const StudentRow = ({ name, work, score, scoreColor, attention, working, mastered }) => (
+const StudentRow = ({
+  name,
+  work,
+  score,
+  scoreColor,
+  attention,
+  working,
+  mastered,
+}) => (
   <div className="flex flex-col md:grid md:grid-cols-6 gap-2 md:gap-4 items-center py-4 border-b border-white/10 last:border-b-0">
     <div className="flex items-center space-x-3 w-full md:col-span-2">
-      <img className="h-10 w-10 rounded-full" src={`https://placehold.co/40x40/76d7c4/ffffff?text=${name.charAt(0)}`} alt="Avatar"/>
+      <img
+        className="h-10 w-10 rounded-full"
+        src={`https://placehold.co/40x40/76d7c4/ffffff?text=${name.charAt(0)}`}
+        alt="Avatar"
+      />
       <span className="font-medium text-white">{name}</span>
     </div>
     <div className="flex justify-between items-center w-full md:col-span-1 md:block">
-      <span className="md:hidden font-semibold text-white/70">Work Completed:</span>
+      <span className="md:hidden font-semibold text-white/70">
+        Work Completed:
+      </span>
       <span className="text-white">{work}</span>
     </div>
     <div className="flex justify-between items-center w-full md:col-span-1 md:block">
-      <span className="md:hidden font-semibold text-white/70">Average Score:</span>
+      <span className="md:hidden font-semibold text-white/70">
+        Average Score:
+      </span>
       <div className="flex items-center space-x-2">
         <div className={`w-full h-2.5 rounded-full ${scoreColor}`}></div>
         <span className="text-sm font-semibold text-white">{score}</span>
       </div>
     </div>
     <div className="flex justify-between items-center w-full md:col-span-1 md:block">
-      <span className="md:hidden font-semibold text-white/70">Needing Attention:</span>
+      <span className="md:hidden font-semibold text-white/70">
+        Needing Attention:
+      </span>
       <CircleStat value={attention} color="bg-orange-500" />
     </div>
     <div className="flex justify-between items-center w-full md:col-span-1 md:block">
-      <span className="md:hidden font-semibold text-white/70">Working Towards:</span>
+      <span className="md:hidden font-semibold text-white/70">
+        Working Towards:
+      </span>
       <CircleStat value={working} color="bg-red-500" />
     </div>
   </div>
 );
 
 const CircleStat = ({ value, color }) => (
-  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-sm text-white font-semibold shadow-sm ${color}`}>
+  <div
+    className={`w-12 h-12 rounded-full flex items-center justify-center text-sm text-white font-semibold shadow-sm ${color}`}
+  >
     {value}
   </div>
 );
