@@ -1,9 +1,9 @@
-import { motion } from 'framer-motion';
-import { Clock, XCircle } from 'lucide-react';
-
+import { motion } from "framer-motion";
+import { Clock, XCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 const TopBar = ({ currentTime, onEndClass }) => {
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -18,15 +18,17 @@ const TopBar = ({ currentTime, onEndClass }) => {
           <Clock size={18} />
           <span>{currentTime.toLocaleTimeString()}</span>
         </div>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={onEndClass}
-          className="flex items-center gap-2 bg-red-500/90 hover:bg-red-500 px-4 py-2 rounded-full text-sm font-medium shadow-md"
-        >
-          <XCircle size={18} />
-          End Class
-        </motion.button>
+        <Link to="/report_class">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={onEndClass}
+            className="flex items-center gap-2 bg-red-500/90 hover:bg-red-500 px-4 py-2 rounded-full text-sm font-medium shadow-md"
+          >
+            <XCircle size={18} />
+            End Class
+          </motion.button>
+        </Link>
       </div>
     </motion.div>
   );

@@ -6,6 +6,7 @@ import LandingPage from "./pages/LandingPage";
 import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
 import ClassRoom from "./pages/ClassRoom";
+import ReportClass from "./pages/Reports_Class";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/classroom" element={<ClassRoom />} />
+          <Route path="/report_class" element={<ReportClass />} />
         </Routes>
 
   );
