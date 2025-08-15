@@ -29,13 +29,13 @@ const App = () => {
 
 // Sidebar Component - matching previous design
 const Sidebar = () => (
-  <aside className="w-full lg:w-64 bg-white/10 backdrop-blur-lg border-b lg:border-r border-white/10 p-4 lg:p-6 flex lg:flex-col items-center justify-between lg:items-start space-x-4 lg:space-x-0 lg:space-y-6">
+  <aside className="w-full lg:w-64 bg-white/10 backdrop-blur-lg border-b lg:border-r border-white/10 p-4 lg:p-6 flex lg:flex-col items-center lg:items-start space-x-4 lg:space-x-0 lg:space-y-6">
     {/* Logo/Icon placeholder */}
     <div className="hidden lg:block">
       <h1 className="text-xl font-bold">ClassRoomCompass</h1>
       <p className="text-sm text-white/70">Dashboard</p>
     </div>
-    <div className="flex items-center space-x-4 lg:flex-col lg:items-start lg:space-y-4 lg:space-x-0 w-full">
+    <div className="flex items-center lg:flex-col lg:items-start  w-full">
       <NavItem icon="📊" text="Dashboard" active />
       <NavItem icon="📝" text="Prepare" />
       <NavItem icon="🎓" text="Teach" />
