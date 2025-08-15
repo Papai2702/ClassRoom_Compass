@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import Nav from "../components/Nav";
 export default function LandingPage() {
   return (
@@ -7,7 +9,7 @@ export default function LandingPage() {
       {/* Main Content */}
       <main className="Landing-main flex flex-col flex-1 items-center justify-center text-center px-6 relative overflow-hidden">
         {/* Background Waves */}
-        <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 opacity-20 z-[-1]">
           <svg viewBox="0 0 1440 320" className="absolute bottom-0">
             <path
               fill="#bbb"
@@ -31,9 +33,11 @@ export default function LandingPage() {
         </p>
 
         {/* CTA Button */}
-        <button className="px-6 py-3 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-700 transition">
-          Enter To the ClassRoom
-        </button>
+        <Link to="/dashboard">
+          <button className="px-4 py-2 md:px-6 md:py-3 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-700 transition text-sm md:text-base">
+            Enter To the ClassRoom
+          </button>
+        </Link>
       </main>
     </div>
   );

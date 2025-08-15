@@ -9,6 +9,7 @@ import {
   FiMenu, 
   FiX 
 } from 'react-icons/fi';
+import { useEffect } from 'react';
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const menuItems = [
@@ -18,6 +19,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     { icon: <FiCalendar size={20} />, label: 'Calendar' },
     { icon: <FiSettings size={20} />, label: 'Settings' },
   ];
+
+  // Force collapse on small devices
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setSidebarOpen(false);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [setSidebarOpen]);
 
   return (
     <motion.div
@@ -40,7 +53,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       {/* Sidebar header */}
       <div className="flex items-center justify-between mb-6 sm:mb-8 px-1">
         <AnimatePresence>
-          {sidebarOpen && (
+          {sidebarOpen && window.innerWidth >= 768 && (
             <motion.h1 
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
@@ -51,11 +64,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             </motion.h1>
           )}
         </AnimatePresence>
+
+        {/* Toggle only for medium+ screens */}
         <motion.button
           whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.1)' }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 rounded-full transition-colors md:hidden"
+          className="p-2 rounded-full transition-colors hidden md:block"
           aria-label={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
         >
           {sidebarOpen ? <FiX size={20} /> : <FiMenu size={20} />}
@@ -76,7 +91,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 href="#"
                 className={`flex items-center p-3 rounded-xl transition-colors duration-200
                   ${item.active ? 'bg-white/10' : 'hover:bg-white/10'}
-                  ${sidebarOpen ? 'justify-start' : 'justify-center'}
+                  ${sidebarOpen && window.innerWidth >= 768 ? 'justify-start' : 'justify-center'}
                   `}
               >
                 <div className="relative flex-shrink-0">
@@ -95,7 +110,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 </div>
                 
                 <AnimatePresence>
-                  {sidebarOpen && (
+                  {sidebarOpen && window.innerWidth >= 768 && (
                     <motion.div
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -120,7 +135,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       {/* Sidebar footer */}
       <div className="mt-auto pt-4 border-t border-white/10 px-1">
         <AnimatePresence>
-          {sidebarOpen && (
+          {sidebarOpen && window.innerWidth >= 768 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
