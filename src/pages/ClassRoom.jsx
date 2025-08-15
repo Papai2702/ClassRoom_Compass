@@ -42,7 +42,10 @@ const ClassRoomCompass = () => {
 
   // Class duration, clock, and attention
   useEffect(() => {
-    const classTimer = setInterval(() => setClassDuration((prev) => prev + 1), 1000);
+    const classTimer = setInterval(
+      () => setClassDuration((prev) => prev + 1),
+      1000
+    );
     const clockTimer = setInterval(() => setCurrentTime(new Date()), 1000);
     const attentionTimer = setInterval(() => {
       setFocusedPercentage((prev) => {
@@ -84,20 +87,10 @@ const ClassRoomCompass = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[url('https://i.pinimg.com/736x/8c/4b/29/8c4b29a40b142e7ad2094f18582714a5.jpg')] bg-cover bg-no-repeat text-white p-4 overflow-hidden">
+    <div className="min-h-screen bg-[url('https://i.pinimg.com/736x/8c/4b/29/8c4b29a40b142e7ad2094f18582714a5.jpg')] bg-cover bg-no-repeat text-white p-4 overflow-auto ">
       <TopBar currentTime={currentTime} onEndClass={handleEndClass} />
 
-      <div className="flex flex-col lg:flex-row gap-4 mt-4 h-[calc(100vh-180px)]">
-        {/* Video Area - Fixed dimensions */}
-        <div className="flex-1 max-w-3xl mx-auto flex justify-center items-center bg-black rounded-lg shadow-lg">
-          <VideoArea
-            timeLeft={timeLeft}
-            isCapturing={isCapturing}
-            onCapture={handleNewImage}
-            className="w-full h-full max-h-[500px] aspect-video rounded-lg"
-          />
-        </div>
-
+      <div className="flex flex-col lg:flex-row gap-4 mt-4 h-[calc(100vh-150px)]">
         {/* Sidebar */}
         <div className="w-full lg:w-[320px] flex-shrink-0">
           <Sidebar
@@ -106,9 +99,17 @@ const ClassRoomCompass = () => {
             studentDoubts={studentDoubts}
           />
         </div>
+        {/* Video Area - Fixed dimensions */}
+        <div className="flex-1 max-w-3xl mx-auto flex flex-col p-5 justify-center items-center bg-black rounded-lg shadow-lg">
+          <VideoArea
+            timeLeft={timeLeft}
+            isCapturing={isCapturing}
+            onCapture={handleNewImage}
+            className="w-full h-full max-h-[500px] aspect-video rounded-lg"
+          />
+          <CapturedImagesRow images={capturedImages} />
+        </div>
       </div>
-
-      <CapturedImagesRow images={capturedImages} />
     </div>
   );
 };
