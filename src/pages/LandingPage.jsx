@@ -1,13 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 import Nav from "../components/Nav";
+
 export default function LandingPage() {
   return (
-    <div className="Landing min-h-screen  flex flex-col">
+    <div className="Landing min-h-screen flex flex-col">
+      {/* Background images with orientation detection */}
+      <div className="fixed inset-0 -z-10">
+        {/* Portrait image (default) */}
+        <div className="md:hidden absolute inset-0 bg-[url('https://i.pinimg.com/736x/d9/0d/92/d90d921f859121ca4b277e3f3787ac76.jpg')] bg-cover bg-center opacity-30"></div>
+        
+        {/* Landscape image (for medium screens and up) */}
+        <div className="hidden md:block absolute inset-0 bg-[url('https://i.pinimg.com/1200x/e9/ff/fb/e9fffb3a1a63ed39dbfad8b721f52701.jpg')] bg-cover bg-center opacity-30"></div>
+      </div>
+
       <Nav />
+      
       {/* Main Content */}
-      <main className="Landing-main flex flex-col flex-1 items-center justify-center text-center px-6 relative overflow-hidden">
+      <main className="Landing-main flex flex-col flex-1 items-center justify-center text-center px-6 relative">
         {/* Background Waves */}
         <div className="absolute inset-0 opacity-20 z-[-1]">
           <svg viewBox="0 0 1440 320" className="absolute bottom-0">
@@ -23,10 +33,10 @@ export default function LandingPage() {
         <h1 className="text-4xl md:text-9xl font-bold text-blue-100 mb-4">
           Welcome
         </h1>
-        <h2 className="text-lg md:text-4xl text-blue-200 font-medium mb-6">
+        <h2 className="text-lg md:text-6xl text-blue-200 font-medium mb-6">
           To Class-Room Compass
         </h2>
-        <p className="max-w-2xl md:text-2xl text-gray-300 mb-8">
+        <p className="max-w-2xl md:text-4xl text-gray-300 mb-8">
           Lorem ipsum is simply dummy text of the printing and typesetting
           industry. Lorem ipsum has been the industry's standard dummy text ever
           since the 1500s.
