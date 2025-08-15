@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import Logo from '../assets/C-R-CLogo.jpg'
 const TopNav = () => {
   // State to manage the visibility of the user and mobile menus
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -95,6 +95,9 @@ const TopNav = () => {
               </svg>
             </button>
           )}
+          <Link to="/dashboard">
+          </Link>
+          <img src={Logo} alt=" " className="h-10 rounded-full mr-2.5 cursor-pointer "/>
           <h1 className="text-xl font-bold">Analytics Dashboard</h1>
         </div>
 

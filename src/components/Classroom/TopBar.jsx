@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { Clock, XCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+import Logo from "../../assets/C-R-CLogo.jpg";
+
 const TopBar = ({ currentTime, onEndClass }) => {
   return (
     <motion.div
@@ -9,9 +11,14 @@ const TopBar = ({ currentTime, onEndClass }) => {
       transition={{ duration: 0.5 }}
       className="flex flex-col md:flex-row justify-between items-center p-4 bg-white/10 backdrop-blur-lg rounded-2xl border border-white/10 shadow-lg"
     >
-      <div className="mb-2 md:mb-0">
-        <h1 className="text-xl font-bold">ClassRoomCompass</h1>
-        <p className="text-sm text-white/70">Live Class Monitoring</p>
+      <div className="mb-2 md:mb-0 gap-3.5 flex ">
+        <Link to="/dashboard">
+        <img src={Logo} alt="" className="h-12 rounded-full cursor-pointer" />
+        </Link>
+        <div className="flex flex-col gap-1 justify-center items-center">
+          <h1 className="text-xl font-bold">ClassRoomCompass</h1>
+          <p className="text-sm text-white/70 ">Live Class Monitoring</p>
+        </div>
       </div>
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
