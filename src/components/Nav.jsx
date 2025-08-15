@@ -24,9 +24,9 @@ const Nav = () => {
           className="md:hidden flex flex-col gap-1 cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <span className="w-6 h-[2px] bg-blue-100"></span>
-          <span className="w-6 h-[2px] bg-blue-100"></span>
-          <span className="w-6 h-[2px] bg-blue-100"></span>
+          <span className="w-6 h-[2px] bg-white"></span>
+          <span className="w-6 h-[2px] bg-white"></span>
+          <span className="w-6 h-[2px] bg-white"></span>
         </div>
 
         {/* Mobile Menu */}
