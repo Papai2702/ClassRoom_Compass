@@ -30,13 +30,13 @@ export default function LandingPage() {
         </div>
 
         {/* Text Content */}
-        <h1 className="text-4xl md:text-9xl font-bold text-blue-100 mb-4">
+        <h1 className="text-4xl sm:text-9xl font-bold text-blue-100 mb-4">
           Welcome
         </h1>
-        <h2 className="text-lg md:text-6xl text-blue-200 font-medium mb-6">
+        <h2 className="text-lg sm:text-6xl text-blue-200 font-medium mb-6">
           To Class-Room Compass
         </h2>
-        <p className="max-w-2xl md:text-4xl text-gray-300 mb-8">
+        <p className="max-w-2xl sm:text-4xl text-gray-300 mb-8">
           Lorem ipsum is simply dummy text of the printing and typesetting
           industry. Lorem ipsum has been the industry's standard dummy text ever
           since the 1500s.
