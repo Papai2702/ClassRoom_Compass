@@ -7,8 +7,6 @@ import CapturedImagesRow from "../components/Classroom/CapturedImagesRow";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
-
-
 const ClassRoomCompass = () => {
   const [timeLeft, setTimeLeft] = useState(10);
   const [isCapturing, setIsCapturing] = useState(false);
@@ -23,10 +21,8 @@ const ClassRoomCompass = () => {
   ]);
   const [capturedImages, setCapturedImages] = useState([]);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [isRecording, setIsRecording] = useState(false);
-  const [audioChunks, setAudioChunks] = useState([]);
-  const [audioUrl, setAudioUrl] = useState("");
   const [classEnded, setClassEnded] = useState(false);
+  const [audioChunks, setAudioChunks] = useState([]);
 
   const audioContextRef = useRef(null);
   const animationRef = useRef(null);
@@ -49,7 +45,7 @@ const ClassRoomCompass = () => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
             clearInterval(timer);
-            setIsCapturing(true); // This now only affects image capturing
+            setIsCapturing(true);
             return 0;
           }
           return prev - 1;
@@ -100,30 +96,27 @@ const ClassRoomCompass = () => {
   };
 
   const startAudioRecording = async () => {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    audioStreamRef.current = stream;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      audioStreamRef.current = stream;
 
-    const mediaRecorder = new MediaRecorder(stream);
-    mediaRecorderRef.current = mediaRecorder;
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
 
-    let chunks = [];
-    setAudioChunks(chunks);
+      let chunks = [];
+      setAudioChunks(chunks);
 
-    mediaRecorder.ondataavailable = (e) => {
-      chunks.push(e.data);
-    };
+      mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
 
-    mediaRecorder.start();
-  } catch (error) {
-    console.error("Error starting audio recording:", error);
-  }
-};
+      mediaRecorder.start();
+    } catch (error) {
+      console.error("Error starting audio recording:", error);
+    }
+  };
 
   const stopAudioRecording = () => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
       mediaRecorderRef.current.stop();
-      setIsRecording(false);
     }
     
     if (audioStreamRef.current) {
@@ -131,47 +124,48 @@ const ClassRoomCompass = () => {
     }
   };
 
+  // Updated handleNewImage: send audio segment + image
   const handleNewImage = async (imageUrl) => {
-  if (!classEnded) {
-    setCapturedImages((prev) => [imageUrl, ...prev].slice(0, 10));
+    if (!classEnded && mediaRecorderRef.current) {
+      // Stop current recording segment
+      mediaRecorderRef.current.stop();
 
-    try {
-      await axios.post('http://localhost:5000/api/snapshot', {
-        image: imageUrl,        // base64 image from VideoArea
-        studentId: 'student123' // optional
-      });
-      console.log('Snapshot saved to DB');
-    } catch (err) {
-      console.error('Error saving snapshot to DB:', err);
+      mediaRecorderRef.current.onstop = async () => {
+        // Convert audio chunks to Blob
+        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        const reader = new FileReader();
+        reader.readAsDataURL(audioBlob);
+        reader.onloadend = async () => {
+          const audioBase64 = reader.result;
+
+          // Send image + audio segment to backend
+          try {
+            await axios.post('http://localhost:5000/api/audio', {
+              image: imageUrl,
+              audio: audioBase64,
+              studentId: 'student123'
+            });
+            console.log('Snapshot + audio segment saved to DB');
+          } catch (err) {
+            console.error('Error saving audio + snapshot to DB:', err);
+          }
+
+          // Clear chunks and restart recording
+          setAudioChunks([]);
+          mediaRecorderRef.current.start();
+        };
+      };
+
+      // Save image locally in frontend UI
+      setCapturedImages((prev) => [imageUrl, ...prev].slice(0, 10));
     }
-  }
-};
-
+  };
 
   const handleEndClass = async () => {
-  setIsCapturing(false);
-  stopAudioRecording();
-  setClassEnded(true);
-
-  if (audioUrl) {
-    try {
-      const audioBlob = await fetch(audioUrl).then(r => r.blob());
-      const reader = new FileReader();
-      reader.readAsDataURL(audioBlob);
-      reader.onloadend = async () => {
-        const base64Audio = reader.result;
-        await axios.post('http://localhost:5000/api/audio', {
-          audio: base64Audio,
-          classDuration
-        });
-        console.log('Audio saved to DB');
-      };
-    } catch (err) {
-      console.error('Error saving audio to DB:', err);
-    }
-  }
-};
-
+    setIsCapturing(false);
+    stopAudioRecording();
+    setClassEnded(true);
+  };
 
   return (
     <div className="min-h-screen bg-[url('https://i.pinimg.com/736x/8c/4b/29/8c4b29a40b142e7ad2094f18582714a5.jpg')] bg-cover bg-no-repeat text-white p-4 overflow-auto">
@@ -185,8 +179,6 @@ const ClassRoomCompass = () => {
             classDuration={classDuration}
             focusedPercentage={focusedPercentage}
             studentDoubts={studentDoubts}
-            isRecording={isRecording}
-            audioUrl={audioUrl}
             classEnded={classEnded}
           />
         </div>
@@ -201,12 +193,6 @@ const ClassRoomCompass = () => {
                 className="mb-6 p-4 bg-white/10 rounded-lg"
               >
                 <h2 className="text-xl font-bold mb-4">Class Recording</h2>
-                {audioUrl && (
-                  <div className="mb-4">
-                    <p className="text-sm mb-2">Duration: {Math.floor(classDuration/60)}m {classDuration%60}s</p>
-                    <audio controls src={audioUrl} className="w-full" />
-                  </div>
-                )}
                 <h3 className="text-lg font-semibold mb-2">Captured Moments</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
                   {capturedImages.map((img, index) => (
