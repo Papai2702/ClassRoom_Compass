@@ -5,6 +5,10 @@ import VideoArea from "../components/Classroom/VideoArea";
 import Sidebar from "../components/Classroom/Sidebar";
 import CapturedImagesRow from "../components/Classroom/CapturedImagesRow";
 import { Link } from "react-router-dom";
+import axios from 'axios';
+
+
+
 const ClassRoomCompass = () => {
   const [timeLeft, setTimeLeft] = useState(10);
   const [isCapturing, setIsCapturing] = useState(false);
@@ -96,37 +100,25 @@ const ClassRoomCompass = () => {
   };
 
   const startAudioRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      audioStreamRef.current = stream;
-      
-      const mediaRecorder = new MediaRecorder(stream);
-      mediaRecorderRef.current = mediaRecorder;
-      
-      const chunks = [];
-      setAudioChunks(chunks);
-      
-      mediaRecorder.ondataavailable = (e) => {
-        chunks.push(e.data);
-      };
-      
-      mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(chunks, { type: 'audio/wav' });
-        const audioUrl = URL.createObjectURL(audioBlob);
-        setAudioUrl(audioUrl);
-      };
-      
-      mediaRecorder.start();
-      setIsRecording(true);
-      
-      // Collect data every second
-      mediaRecorder.start(1000);
-      
-    } catch (error) {
-      console.error("Error starting audio recording:", error);
-      // Handle error (e.g., show message to user)
-    }
-  };
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    audioStreamRef.current = stream;
+
+    const mediaRecorder = new MediaRecorder(stream);
+    mediaRecorderRef.current = mediaRecorder;
+
+    let chunks = [];
+    setAudioChunks(chunks);
+
+    mediaRecorder.ondataavailable = (e) => {
+      chunks.push(e.data);
+    };
+
+    mediaRecorder.start();
+  } catch (error) {
+    console.error("Error starting audio recording:", error);
+  }
+};
 
   const stopAudioRecording = () => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
@@ -139,17 +131,47 @@ const ClassRoomCompass = () => {
     }
   };
 
-  const handleNewImage = (imageUrl) => {
-    if (!classEnded) {
-      setCapturedImages((prev) => [imageUrl, ...prev].slice(0, 10));
-    }
-  };
+  const handleNewImage = async (imageUrl) => {
+  if (!classEnded) {
+    setCapturedImages((prev) => [imageUrl, ...prev].slice(0, 10));
 
-  const handleEndClass = () => {
-    setIsCapturing(false); // Stop image capturing
-    stopAudioRecording(); // Stop audio recording
-    setClassEnded(true); // Set class as ended
-  };
+    try {
+      await axios.post('http://localhost:5000/api/snapshot', {
+        image: imageUrl,        // base64 image from VideoArea
+        studentId: 'student123' // optional
+      });
+      console.log('Snapshot saved to DB');
+    } catch (err) {
+      console.error('Error saving snapshot to DB:', err);
+    }
+  }
+};
+
+
+  const handleEndClass = async () => {
+  setIsCapturing(false);
+  stopAudioRecording();
+  setClassEnded(true);
+
+  if (audioUrl) {
+    try {
+      const audioBlob = await fetch(audioUrl).then(r => r.blob());
+      const reader = new FileReader();
+      reader.readAsDataURL(audioBlob);
+      reader.onloadend = async () => {
+        const base64Audio = reader.result;
+        await axios.post('http://localhost:5000/api/audio', {
+          audio: base64Audio,
+          classDuration
+        });
+        console.log('Audio saved to DB');
+      };
+    } catch (err) {
+      console.error('Error saving audio to DB:', err);
+    }
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-[url('https://i.pinimg.com/736x/8c/4b/29/8c4b29a40b142e7ad2094f18582714a5.jpg')] bg-cover bg-no-repeat text-white p-4 overflow-auto">
