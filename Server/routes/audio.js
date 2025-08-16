@@ -1,19 +1,22 @@
 const express = require('express');
 const router = express.Router();
+const AudioSnapshot = require('../models/AudioSnapshot');
 
 router.post('/', async (req, res) => {
-  const { audio, classDuration } = req.body;
+  const { studentId, image, audio } = req.body;
+
+  if (!studentId || !image || !audio) {
+    return res.status(400).json({ status: 'error', message: 'Missing required fields' });
+  }
 
   try {
-    console.log('Received audio of duration (seconds):', classDuration);
-    console.log('Audio data (first 100 chars):', audio.slice(0, 100));
-
-    // TODO: Save to DB or file if needed
-
-    res.json({ status: 'success', message: 'Audio received!' });
+    const record = new AudioSnapshot({ studentId, image, audio });
+    await record.save();
+    console.log(`🎵 + 📸 Audio + Snapshot saved for ${studentId}`);
+    res.json({ status: 'success', message: 'Audio + snapshot saved' });
   } catch (err) {
-    console.error('Error saving audio:', err);
-    res.status(500).json({ status: 'error', message: 'Failed to save audio' });
+    console.error('❌ Error saving audio + snapshot:', err);
+    res.status(500).json({ status: 'error', message: 'Failed to save audio snapshot' });
   }
 });
 

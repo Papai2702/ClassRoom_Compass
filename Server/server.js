@@ -31,6 +31,7 @@ app.get('/', (req, res) => {
 app.use('/api/snapshot', snapshotRoute);
 app.use('/api/audio', audioRoute);
 
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
