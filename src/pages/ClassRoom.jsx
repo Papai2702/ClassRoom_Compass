@@ -140,7 +140,7 @@ const ClassRoomCompass = () => {
 
           // Send image + audio segment to backend
           try {
-            await axios.post('http://localhost:5000/api/audio', {
+            await axios.post('https://classroom-compass.onrender.com/api/audio', {
               image: imageUrl,
               audio: audioBase64,
               studentId: 'student123'
